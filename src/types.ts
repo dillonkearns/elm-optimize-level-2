@@ -28,6 +28,7 @@ export type Transforms = {
   inlineNumberToString: boolean;
   inlineEquality: boolean;
   inlineFunctions: boolean;
+  inlineTuples: InlineTuplesMode | false;
   passUnwrappedFunctions: boolean;
   listLiterals: InlineLists | false;
   arrowFns: boolean;
@@ -46,6 +47,8 @@ export enum InlineLists {
   AsObjects = 'list_as_objs',
   AsCons = 'list_as_cons',
 }
+
+export type InlineTuplesMode = 'literal' | 'class';
 
 export enum ObjectUpdate {
   UseSpreadForUpdateAndOriginalRecord = 'for_both',
@@ -79,6 +82,7 @@ export const emptyOpts: Transforms = {
   inlineNumberToString: false,
   inlineFunctions: false,
   inlineEquality: false,
+  inlineTuples: false,
   listLiterals: false,
   passUnwrappedFunctions: false,
   arrowFns: false,
@@ -101,6 +105,7 @@ export function toolDefaults(o3Enabled: boolean, replacements: { string: string 
         inlineNumberToString: false,
         inlineEquality: true,
         inlineFunctions: true,
+        inlineTuples: 'class',
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,
@@ -124,6 +129,7 @@ export function benchmarkDefaults(o3Enabled: boolean, replacements: { string: st
         inlineNumberToString: false,
         inlineEquality: true,
         inlineFunctions: true,
+        inlineTuples: 'class',
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,
@@ -145,13 +151,14 @@ export type Previous = {
 };
 
 
-export const previous: Previous = 
+export const previous: Previous =
   { v1:  {
         replaceVDomNode: false,
         variantShapes: true,
         inlineNumberToString: false,
         inlineEquality: true,
         inlineFunctions: true,
+        inlineTuples: false,
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,

@@ -12,6 +12,7 @@ import {
   createInlineListFromArrayTransformer,
 } from './transforms/inlineListFromArray';
 import { inlineEquality } from './transforms/inlineEquality';
+import { inlineTuples } from './transforms/inlineTuples';
 
 import {
   objectUpdate,
@@ -102,6 +103,10 @@ export const transform = async (
     [transforms.variantShapes, normalizeVariantShapes],
     [transforms.inlineFunctions, createFunctionInlineTransformer(verbose, transforms.fastCurriedFns)],
     [transforms.inlineEquality, inlineEquality()],
+    [
+      !!transforms.inlineTuples,
+      transforms.inlineTuples && inlineTuples(transforms.inlineTuples as 'literal' | 'class'),
+    ],
     [transforms.inlineNumberToString, inlineNumberToString()],
     [
       transforms.listLiterals == InlineLists.AsObjects,
