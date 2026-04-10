@@ -13,6 +13,7 @@ import {
 } from './transforms/inlineListFromArray';
 import { inlineEquality } from './transforms/inlineEquality';
 import { inlineTuples } from './transforms/inlineTuples';
+import { inlineVariantCtors } from './transforms/inlineVariantCtors';
 
 import {
   objectUpdate,
@@ -106,6 +107,16 @@ export const transform = async (
     [
       !!transforms.inlineTuples,
       transforms.inlineTuples && inlineTuples(transforms.inlineTuples as 'literal' | 'class'),
+    ],
+    [
+      !!transforms.inlineVariantCtors,
+      transforms.inlineVariantCtors &&
+        inlineVariantCtors({
+          ...(typeof transforms.inlineVariantCtors === 'object'
+            ? transforms.inlineVariantCtors
+            : {}),
+          verbose,
+        }),
     ],
     [transforms.inlineNumberToString, inlineNumberToString()],
     [

@@ -29,6 +29,7 @@ export type Transforms = {
   inlineEquality: boolean;
   inlineFunctions: boolean;
   inlineTuples: InlineTuplesMode | false;
+  inlineVariantCtors: InlineVariantCtorsConfig | false;
   passUnwrappedFunctions: boolean;
   listLiterals: InlineLists | false;
   arrowFns: boolean;
@@ -49,6 +50,12 @@ export enum InlineLists {
 }
 
 export type InlineTuplesMode = 'literal' | 'class';
+
+export type InlineVariantCtorsConfig = {
+  mode?: 'literal' | 'class';
+  /** Only transform the top N constructors by direct-call frequency. */
+  topK?: number;
+};
 
 export enum ObjectUpdate {
   UseSpreadForUpdateAndOriginalRecord = 'for_both',
@@ -83,6 +90,7 @@ export const emptyOpts: Transforms = {
   inlineFunctions: false,
   inlineEquality: false,
   inlineTuples: false,
+  inlineVariantCtors: false,
   listLiterals: false,
   passUnwrappedFunctions: false,
   arrowFns: false,
@@ -106,6 +114,7 @@ export function toolDefaults(o3Enabled: boolean, replacements: { string: string 
         inlineEquality: true,
         inlineFunctions: true,
         inlineTuples: 'class',
+        inlineVariantCtors: { mode: 'literal', topK: 20 },
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,
@@ -130,6 +139,7 @@ export function benchmarkDefaults(o3Enabled: boolean, replacements: { string: st
         inlineEquality: true,
         inlineFunctions: true,
         inlineTuples: 'class',
+        inlineVariantCtors: { mode: 'literal', topK: 20 },
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,
@@ -159,6 +169,7 @@ export const previous: Previous =
         inlineEquality: true,
         inlineFunctions: true,
         inlineTuples: false,
+        inlineVariantCtors: false,
         listLiterals: false,
         passUnwrappedFunctions: true,
         arrowFns: false,
